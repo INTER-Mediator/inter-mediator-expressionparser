@@ -1,5 +1,5 @@
 {
-  "name": "inter-mediator-expression-parser",
+  "name": "inter-mediator-expressionparser",
   "version": "1.0.0",
   "description": "The expression parser of INTER-Mediator core.",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/INTER-Mediator/inter-mediator-expression-parser.git"
+    "url": "git+https://github.com/INTER-Mediator/inter-mediator-expressionparser.git"
   },
   "keywords": [
     "INTER-Mediator",
@@ -20,7 +20,7 @@
   "author": "Masayuki Nii and INTER-Mediator contributers",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/INTER-Mediator/inter-mediator-expression-parser/issues"
+    "url": "https://github.com/INTER-Mediator/inter-mediator-expressionparser/issues"
   },
-  "homepage": "https://github.com/INTER-Mediator/inter-mediator-expression-parser#readme"
+  "homepage": "https://github.com/INTER-Mediator/inter-mediator-expressionparser#readme"
 }
