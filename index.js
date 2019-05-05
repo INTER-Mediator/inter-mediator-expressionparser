@@ -1726,4 +1726,4 @@ let Parser = (function (scope) {
 
 // @@IM@@IgnoringRestOfFile
 module.exports = Parser
-const IMLibFormat = require('../../src/js/INTER-Mediator-Format')
+const IMLibFormat = require('../inter-mediator-formatter/index')
