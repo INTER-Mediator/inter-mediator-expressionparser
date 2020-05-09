@@ -1,10 +1,11 @@
 {
   "name": "inter-mediator-expressionparser",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "The expression parser of INTER-Mediator core.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/jest/bin/jest.js expression.test.js"
   },
   "repository": {
     "type": "git",
@@ -15,8 +16,12 @@
     "expression",
     "parser"
   ],
-  "dependencies": {
+  "devDependencies": {
+    "inter-mediator-formatter": "*",
+    "inter-mediator-locale": "*",
+    "jest": "*"
   },
+  "dependencies": {},
   "author": "Masayuki Nii and INTER-Mediator contributers, Based on ndef.parser, by Raphael Graf(r@undefined.ch)",
   "license": "MIT",
   "bugs": {
