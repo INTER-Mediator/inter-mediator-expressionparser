@@ -1777,4 +1777,3 @@ let Parser = (function (scope) {
 
 // @@IM@@IgnoringRestOfFile
 module.exports = Parser
-const IMLibFormat = require('./node_modules/inter-mediator-formatter/index')

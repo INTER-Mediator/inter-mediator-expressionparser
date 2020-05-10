@@ -5,7 +5,11 @@
  ../vendor/bin/node ../node_modules/.bin/jest
  */
 let parser = require('./index.js')
-// const INTERMediatorOnPage = require('../../src/js/INTER-Mediator-Page')
+let IMLibFormatLib = require('./node_modules/inter-mediator-formatter/index')
+
+beforeEach(() => {
+  IMLibFormat = IMLibFormatLib
+})
 
 test('should be equal to', () => {
     expect(parser.evaluate('2 ^ x', {x: 3})).toBe(8)
