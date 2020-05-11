@@ -538,8 +538,11 @@ let Parser = (function (scope) {
 
   function charsetand(a, b) {
     let stra, strb, i, result = ''
-    stra = (a instanceof Array) ? a.join() : a
-    strb = (b instanceof Array) ? b.join() : b
+    if (a === null || a === undefined || b === null || b === undefined) {
+      return null
+    }
+    stra = (a instanceof Array) ? a.join(nl) : a
+    strb = (a instanceof Array) ? b.join(nl) : b
     for (i = 0; i < stra.length; i++) {
       if (strb.indexOf(stra.substr(i, 1)) > -1) {
         result += stra.substr(i, 1)
@@ -550,8 +553,11 @@ let Parser = (function (scope) {
 
   function charsetor(a, b) {
     let stra, strb, i, result = ''
-    stra = (a instanceof Array) ? a.join() : a
-    strb = (b instanceof Array) ? b.join() : b
+    if (a === null || a === undefined || b === null || b === undefined) {
+      return null
+    }
+    stra = (a instanceof Array) ? a.join(nl) : a
+    strb = (a instanceof Array) ? b.join(nl) : b
     for (i = 0; i < strb.length; i++) {
       if (stra.indexOf(strb.substr(i, 1)) < 0) {
         result += strb.substr(i, 1)
@@ -562,8 +568,11 @@ let Parser = (function (scope) {
 
   function charsetnoother(a, b) {
     let stra, strb, i, result = ''
-    stra = (a instanceof Array) ? a.join() : a
-    strb = (b instanceof Array) ? b.join() : b
+    if (a === null || a === undefined || b === null || b === undefined) {
+      return null
+    }
+    stra = (a instanceof Array) ? a.join(nl) : a
+    strb = (a instanceof Array) ? b.join(nl) : b
     for (i = 0; i < stra.length; i++) {
       if (strb.indexOf(stra.substr(i, 1)) < 0) {
         result += stra.substr(i, 1)
@@ -575,11 +584,12 @@ let Parser = (function (scope) {
   /* ===== private ===== */
   function parametersOfMultiline(a, b) {
     let stra, strb, arraya, arrayb, i, nls, nl = '\n'
-    stra = (a instanceof Array) ? a.join() : a
-    nls = [
-      stra.indexOf('\r\n'),
-      stra.indexOf('\r'), stra.indexOf('\n')
-    ]
+    if (a === null || a === undefined || b === null || b === undefined) {
+      return null
+    }
+    stra = (a instanceof Array) ? a.join(nl) : a
+    strb = (a instanceof Array) ? b.join(nl) : b
+    nls = [stra.indexOf('\r\n'), stra.indexOf('\r'), stra.indexOf('\n')]
     for (i = 0; i < nls.length; i++) {
       nls[i] = (nls[i] < 0) ? stra.length : nls[i]
     }
@@ -599,6 +609,9 @@ let Parser = (function (scope) {
   function itemsetand(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
+    if(params === null){
+      return null
+    }
     arraya = params[0]
     arrayb = params[1]
     nl = params[2]
@@ -613,7 +626,9 @@ let Parser = (function (scope) {
   function itemsetor(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
-    arraya = params[0]
+    if(params === null){
+      return null
+    }  arraya = params[0]
     arrayb = params[1]
     nl = params[2]
     for (i = 0; i < arraya.length; i++) {
@@ -632,7 +647,9 @@ let Parser = (function (scope) {
   function itemsetnoother(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
-    arraya = params[0]
+    if(params === null){
+      return null
+    } arraya = params[0]
     arrayb = params[1]
     nl = params[2]
     for (i = 0; i < arraya.length; i++) {
@@ -646,6 +663,9 @@ let Parser = (function (scope) {
   function itematindex(a, start, end) {
     let params, arraya, nl, i, result = ''
     params = parametersOfMultiline(a, '')
+    if(params === null){
+      return null
+    }
     arraya = params[0]
     nl = params[2]
     end = (end == undefined) ? arraya.length : end
