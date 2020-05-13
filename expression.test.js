@@ -111,6 +111,16 @@ test('should be equal to', () => {
     expect(parser.evaluate('a || b ', {a: true, b: false})).toBe(true)
     expect(parser.evaluate('a > 10 && b < 10', {a: 11, b: 9})).toBe(true)
     expect(parser.evaluate('a > 10 || b < 10', {a: 11, b: 12})).toBe(true)
+    expect(parser.evaluate('a && b', {a: [null], b: 12})).toBe(null)
+    expect(parser.evaluate('a || b', {a: [null], b: 12})).toBe(12)
+    expect(parser.evaluate('a && b', {a: 12, b: [null]})).toBe(null)
+    expect(parser.evaluate('a || b', {a: 12, b: [null]})).toBe(12)
+    expect(parser.evaluate('a && b', {a: [99], b: 12})).toBe(12)
+    expect(parser.evaluate('a || b', {a: [99], b: 12})).toBe(99)
+    expect(parser.evaluate('a → b', {a: false, b: false})).toBe(true)
+    expect(parser.evaluate('a → b', {a: true, b: false})).toBe(false)
+    expect(parser.evaluate('a → b', {a: false, b: true})).toBe(true)
+    expect(parser.evaluate('a → b', {a: true, b: true})).toBe(true)
   }
 )
 test('should be equal to', () => {
@@ -637,8 +647,10 @@ test('Logical operator minus.', () => {
     expect(parser.evaluate('!a', {a: 1})).toBe(false)
     expect(parser.evaluate('!a', {a: -1})).toBe(false)
     expect(parser.evaluate('!a', {a: []})).toBe(false)
+    expect(parser.evaluate('!a', {a: [null]})).toBe(true)
+    expect(parser.evaluate('!a', {a: ['str']})).toBe(false)
     expect(parser.evaluate('!a', {a: [100, 200]})).toBe(false)
     expect(parser.evaluate('!a', {a: {}})).toBe(false)
-    expect(parser.evaluate('!a', {a: {f:100, s:200}})).toBe(false)
-}
+    expect(parser.evaluate('!a', {a: {f: 100, s: 200}})).toBe(false)
+  }
 )

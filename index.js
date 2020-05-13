@@ -407,16 +407,20 @@ let Parser = (function (scope) {
     return b
   }
 
+  function implies(a, b) {
+    return !(toValue(a) == true && toValue(b) == false)
+  }
+
   function logicalnot(a) {
-    return !a
+    return !toValue(a)
   }
 
   function logicaland(a, b) {
-    return a && b
+    return toValue(a) && toValue(b)
   }
 
   function logicalor(a, b) {
-    return a || b
+    return toValue(a) || toValue(b)
   }
 
   function sumfunc() {
@@ -513,6 +517,16 @@ let Parser = (function (scope) {
     }
     value = unformat(value)
     return value
+  }
+
+  /* ===== private ===== */
+  function toValue(str) {
+    if (Array.isArray(str)) {
+      if (str.length > 0) {
+        return str[0]
+      }
+    }
+    return str
   }
 
   /* ===== private ===== */
@@ -1342,6 +1356,7 @@ let Parser = (function (scope) {
       '⋀': [2, itemsetand, 3],
       '⋁': [2, itemsetor, 4],
       '⊬': [2, itemsetnoother, 4],
+      '→': [2, implies, 4],
       '?': [2, iff, 13],
       ':': [4, iff, 13]
     }
