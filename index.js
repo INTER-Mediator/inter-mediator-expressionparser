@@ -408,19 +408,14 @@ let Parser = (function (scope) {
   }
 
   function logicalnot(a) {
-    a = toNumber(a)
     return !a
   }
 
   function logicaland(a, b) {
-    a = toNumber(a)
-    b = toNumber(b)
     return a && b
   }
 
   function logicalor(a, b) {
-    a = toNumber(a)
-    b = toNumber(b)
     return a || b
   }
 
@@ -609,7 +604,7 @@ let Parser = (function (scope) {
   function itemsetand(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
-    if(params === null){
+    if (params === null) {
       return null
     }
     arraya = params[0]
@@ -626,9 +621,10 @@ let Parser = (function (scope) {
   function itemsetor(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
-    if(params === null){
+    if (params === null) {
       return null
-    }  arraya = params[0]
+    }
+    arraya = params[0]
     arrayb = params[1]
     nl = params[2]
     for (i = 0; i < arraya.length; i++) {
@@ -647,9 +643,10 @@ let Parser = (function (scope) {
   function itemsetnoother(a, b) {
     let params, arraya, arrayb, nl, i, result = ''
     params = parametersOfMultiline(a, b)
-    if(params === null){
+    if (params === null) {
       return null
-    } arraya = params[0]
+    }
+    arraya = params[0]
     arrayb = params[1]
     nl = params[2]
     for (i = 0; i < arraya.length; i++) {
@@ -663,7 +660,7 @@ let Parser = (function (scope) {
   function itematindex(a, start, end) {
     let params, arraya, nl, i, result = ''
     params = parametersOfMultiline(a, '')
-    if(params === null){
+    if (params === null) {
       return null
     }
     arraya = params[0]
@@ -1425,6 +1422,12 @@ let Parser = (function (scope) {
               noperators++
               this.addfunc(tokenstack, operstack, TOP1)
             }
+            if (this.isNotOperator()) {
+              this.tokenprio = 2
+              this.tokenindex = '!'
+              noperators++
+              this.addfunc(tokenstack, operstack, TOP1)
+            }
             expected = (PRIMARY | LPAREN | FUNCTION | SIGN)
           } else if (this.isComment()) {
             // do nothing
@@ -1692,10 +1695,7 @@ let Parser = (function (scope) {
 
     isSign: function () {
       let code = this.expression.charCodeAt(this.pos - 1)
-      if (code === 45 || code === 43) { // -
-        return true
-      }
-      return false
+      return (code === 45 || code === 43 || code === 33) // + - !
     },
 
     isPositiveSign: function () {
@@ -1708,10 +1708,12 @@ let Parser = (function (scope) {
 
     isNegativeSign: function () {
       let code = this.expression.charCodeAt(this.pos - 1)
-      if (code === 45) { // -
-        return true
-      }
-      return false
+      return (code === 45)  // -
+    },
+
+    isNotOperator: function () {
+      let code = this.expression.charCodeAt(this.pos - 1)
+      return (code === 33)  // !
     },
 
     isLeftParenth: function () {

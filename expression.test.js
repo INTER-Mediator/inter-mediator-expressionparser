@@ -625,4 +625,20 @@ test('if false test.', () => {
     expect(parser.evaluate('if(a,\'T\',\'F\')', {a: '-1'})).toBe('T')
   }
 )
-
+test('Logical operator minus.', () => {
+    expect(parser.evaluate('!a', {a: true})).toBe(false)
+    expect(parser.evaluate('!a', {a: false})).toBe(true)
+    expect(parser.evaluate('!a', {a: "string"})).toBe(false)
+    expect(parser.evaluate('!a', {a: ""})).toBe(true)
+    expect(parser.evaluate('!a', {a: null})).toBe(true)
+    expect(parser.evaluate('!a', {a: undefined})).toBe(true)
+    expect(parser.evaluate('!a', {a: NaN})).toBe(true)
+    expect(parser.evaluate('!a', {a: 0})).toBe(true)
+    expect(parser.evaluate('!a', {a: 1})).toBe(false)
+    expect(parser.evaluate('!a', {a: -1})).toBe(false)
+    expect(parser.evaluate('!a', {a: []})).toBe(false)
+    expect(parser.evaluate('!a', {a: [100, 200]})).toBe(false)
+    expect(parser.evaluate('!a', {a: {}})).toBe(false)
+    expect(parser.evaluate('!a', {a: {f:100, s:200}})).toBe(false)
+}
+)
