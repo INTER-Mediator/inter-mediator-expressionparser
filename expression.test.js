@@ -495,7 +495,9 @@ test('String functions.', () => {
     expect(parser.evaluate('length(\'abcdefgabc\')')).toBe(10)
     expect(parser.evaluate('left(\'abcdefgabc\',3)')).toBe('abc')
     expect(parser.evaluate('right(\'abcdefgabc\',3)')).toBe('abc')
-    expect(parser.evaluate('mid(\'abcdefgabc\', 3, 3)')).toBe('def')
+  expect(parser.evaluate('mid(\'abcdefgabc\', 3, 3)')).toBe('def')
+  expect(parser.evaluate('tolower(\'AAABBBxxx3\')')).toBe('aaabbbxxx3')
+  expect(parser.evaluate('toupper(\'AAABBBxxx3\')')).toBe('AAABBBXXX3')
   }
 )
 test('String Items.', () => {

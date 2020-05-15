@@ -1,6 +1,6 @@
 {
   "name": "inter-mediator-expressionparser",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "The expression parser of INTER-Mediator core.",
   "main": "index.js",
   "type": "module",
@@ -17,8 +17,8 @@
     "parser"
   ],
   "devDependencies": {
-    "inter-mediator-formatter": "*",
-    "inter-mediator-locale": "*",
+    "inter-mediator-formatter": "^1.0.5",
+    "inter-mediator-locale": "^1.0.3",
     "jest": "*"
   },
   "dependencies": {},

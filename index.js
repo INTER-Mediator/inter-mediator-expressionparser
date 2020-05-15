@@ -896,6 +896,22 @@ let Parser = (function (scope) {
     return (stra.indexOf(pina) + pina.length) === stra.length
   }
 
+  function tolowerFunc(str) {
+    if (str === null) {
+      return null
+    }
+    const stra = (str instanceof Array) ? str.join() : String(str)
+    return stra.toLowerCase()
+  }
+
+  function toupperFunc(str) {
+    if (str === null) {
+      return null
+    }
+    const stra = (str instanceof Array) ? str.join() : String(str)
+    return stra.toUpperCase()
+  }
+
   Parser.timeOffset = (new Date()).getTimezoneOffset()
 
   function DateInt(str) {
@@ -1317,7 +1333,9 @@ let Parser = (function (scope) {
       'extname': extname,
       'dirname': dirname,
       'startsWith': startsWith,
-      'endsWith': endsWith
+      'endsWith': endsWith,
+      'tolower': tolowerFunc,
+      'toupper': toupperFunc
     }
 
     this.consts = {
