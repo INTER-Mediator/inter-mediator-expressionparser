@@ -225,7 +225,7 @@ test('should be equal to', () => {
     expect(parser.evaluate('length(f)', {f: -3152})).toBe(5)
     expect(parser.evaluate('length(f)', {f: 23.5678})).toBe(7)
     expect(parser.evaluate('length(f)', {f: true})).toBe(4)
-    expect(parser.evaluate('length(f)', {f: false})).toBe(5)
+    expect(parser.evaluate('length(f)', {f: false})).toBe(0) // false is 0 length value
     expect(parser.evaluate('length(f)', {f: '&lt;&amp;&gt;'})).toBe(13) // not 3
   }
 )

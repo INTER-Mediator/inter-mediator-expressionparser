@@ -485,10 +485,8 @@ let Parser = (function (scope) {
   function length(a) {
     if (a == undefined || a == null) {
       return 0
-    } else {
-      a = (a instanceof Array) ? a.join() : a
-      return (new String(a)).length
     }
+    return paramStr(a).length
   }
 
   /* ===== private ===== */
@@ -545,13 +543,20 @@ let Parser = (function (scope) {
     return a
   }
 
+  function paramStrList(value) {
+    let val = value
+    val = (Array.isArray(val)) ? val.join('\n') : val
+    val = (val === false || val === null) ? '' : val
+    return String(val)
+  }
+
   function charsetand(a, b) {
     let stra, strb, i, result = ''
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = (a instanceof Array) ? a.join(nl) : a
-    strb = (a instanceof Array) ? b.join(nl) : b
+    stra = paramStrList(a)
+    strb = paramStrList(b)
     for (i = 0; i < stra.length; i++) {
       if (strb.indexOf(stra.substr(i, 1)) > -1) {
         result += stra.substr(i, 1)
@@ -565,8 +570,8 @@ let Parser = (function (scope) {
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = (a instanceof Array) ? a.join(nl) : a
-    strb = (a instanceof Array) ? b.join(nl) : b
+    stra = paramStrList(a)
+    strb = paramStrList(b)
     for (i = 0; i < strb.length; i++) {
       if (stra.indexOf(strb.substr(i, 1)) < 0) {
         result += strb.substr(i, 1)
@@ -580,8 +585,8 @@ let Parser = (function (scope) {
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = (a instanceof Array) ? a.join(nl) : a
-    strb = (a instanceof Array) ? b.join(nl) : b
+    stra = paramStrList(a)
+    strb = paramStrList(b)
     for (i = 0; i < stra.length; i++) {
       if (strb.indexOf(stra.substr(i, 1)) < 0) {
         result += stra.substr(i, 1)
@@ -596,8 +601,8 @@ let Parser = (function (scope) {
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = (a instanceof Array) ? a.join(nl) : a
-    strb = (a instanceof Array) ? b.join(nl) : b
+    stra = paramStrList(a)
+    strb = paramStrList(b)
     nls = [stra.indexOf('\r\n'), stra.indexOf('\r'), stra.indexOf('\n')]
     for (i = 0; i < nls.length; i++) {
       nls[i] = (nls[i] < 0) ? stra.length : nls[i]
@@ -711,150 +716,99 @@ let Parser = (function (scope) {
   }
 
   function numberformat(val, digit) {
-    let stra, strb
-    stra = (val instanceof Array) ? val.join() : val
-    strb = (digit instanceof Array) ? digit.join() : digit
-    return IMLibFormat.numberFormat(stra, strb, {useSeparator: true})
+    return IMLibFormat.numberFormat(paramStr(val), digit ? paramNum(digit) : 0, {useSeparator: true})
   }
 
   function currencyformat(val, digit) {
-    let stra, strb
-    stra = (val instanceof Array) ? val.join() : val
-    strb = (digit instanceof Array) ? digit.join() : digit
-    return IMLibFormat.currencyFormat(stra, strb, {useSeparator: true})
+    return IMLibFormat.currencyFormat(paramStr(val), paramNum(digit), {useSeparator: true})
   }
 
   function substr(str, pos, len) {
-    let stra, p, l
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    p = (pos instanceof Array) ? pos.join() : pos
-    l = (len instanceof Array) ? len.join() : len
-
-    return stra.substr(p, l)
+    return paramStr(str).substr(paramNum(pos), paramNum(len))
   }
 
   function substring(str, start, end) {
-    let stra, s, e
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    s = (start instanceof Array) ? start.join() : start
-    e = (end instanceof Array) ? end.join() : end
-
-    return stra.substring(s, e)
+    return paramStr(str).substring(paramNum(start), paramNum(end))
   }
 
   function leftstring(str, start) {
-    let stra, s
     if (str == null) {
       return null
     }
-    stra = String((str instanceof Array) ? str.join() : str)
-    s = parseInt((start instanceof Array) ? start.join() : start)
-
-    return stra.substring(0, s)
+    return paramStr(str).substring(0, paramNum(start))
   }
 
   function midstring(str, start, end) {
-    let stra, s, e
     if (str == null) {
       return null
     }
-    stra = String((str instanceof Array) ? str.join() : str)
-    s = parseInt((start instanceof Array) ? start.join() : start)
-    e = parseInt((end instanceof Array) ? end.join() : end)
-
-    return stra.substr(s, e)
+    return paramStr(str).substr(paramNum(start), paramNum(end))
   }
 
   function rightstring(str, start) {
-    let stra, s
     if (str == null) {
       return null
     }
-    stra = String((str instanceof Array) ? str.join() : str)
-    s = parseInt((start instanceof Array) ? start.join() : start)
-
-    return stra.substring(stra.length - s)
+    return paramStr(str).substring(paramStr(str).length - paramNum(start))
   }
 
   function indexof(str, search, from) {
-    let stra, s
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    s = (search instanceof Array) ? search.join() : search
     if (from == undefined) {
-      return stra.indexOf(s)
+      return paramStr(str).indexOf(paramStr(search))
     }
-    return stra.indexOf(s, from)
-
+    return paramStr(str).indexOf(paramStr(search), paramStr(from))
   }
 
   function lastindexof(str, search, from) {
-    let stra, s
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    s = (search instanceof Array) ? search.join() : search
     if (from == undefined) {
-      return stra.lastIndexOf(s)
+      return paramStr(str).lastIndexOf(paramStr(search))
     }
-    return stra.lastIndexOf(s, from)
+    return paramStr(str).lastIndexOf(paramStr(search), paramStr(from))
   }
 
   function replace(str, start, end, rep) {
-    let stra, s, e, r
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    s = (start instanceof Array) ? start.join() : start
-    e = (end instanceof Array) ? end.join() : end
-    r = (rep instanceof Array) ? rep.join() : rep
-    return stra.substr(0, s) + r + stra.substr(e)
+    return paramStr(str).substr(0, paramNum(start)) + paramStr(rep) + paramStr(str).substr(paramNum(end))
   }
 
   function substitute(str, search, rep) {
-    let stra, s, r, reg
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    s = (search instanceof Array) ? search.join() : search
-    r = (rep instanceof Array) ? rep.join() : rep
-    reg = new RegExp(s, 'g')
-    return stra.replace(reg, r)
+    const reg = new RegExp(paramStr(search), 'g')
+    return paramStr(str).replace(reg, paramStr(rep))
   }
 
   function match(str, pattern) {
-    let stra, p
-    stra = (str instanceof Array) ? str.join() : str
-    p = (pattern instanceof Array) ? pattern.join() : pattern
-    return stra.match(new RegExp(p))
+    return paramStr(str).match(new RegExp(paramStr(pattern)))
   }
 
   function test(str, pattern) {
-    let stra, p
     if (str == null) {
       return null
     }
-    stra = (str instanceof Array) ? str.join() : str
-    p = (pattern instanceof Array) ? pattern.join() : pattern
-    return (new RegExp(p)).test(stra)
+    return (new RegExp(paramStr(pattern))).test(paramStr(str))
   }
 
   function basename(path) {
     if (path == null) {
       return null
     }
-    let str = (path instanceof Array) ? path.join() : String(path)
+    let str = paramStr(path)
     if (str.substr(-1) == '/') {
       str = str.substr(0, str.length - 1)
     }
@@ -865,7 +819,7 @@ let Parser = (function (scope) {
     if (path == null) {
       return null
     }
-    const str = (path instanceof Array) ? path.join() : String(path)
+    const str = paramStr(path)
     const dotPos = str.lastIndexOf('.')
     return (dotPos < 0) ? '' : str.substr(str.lastIndexOf('.') - str.length + 1)
   }
@@ -874,7 +828,7 @@ let Parser = (function (scope) {
     if (path == null) {
       return null
     }
-    const str = (path instanceof Array) ? path.join() : String(path)
+    const str = paramStr(path)
     return str.substr(0, str.lastIndexOf('/'))
   }
 
@@ -882,17 +836,15 @@ let Parser = (function (scope) {
     if (str === null || pin === null) {
       return null
     }
-    const stra = (str instanceof Array) ? str.join() : String(str)
-    const pina = (pin instanceof Array) ? pin.join() : String(pin)
-    return stra.indexOf(pina) === 0
+    return paramStr(str).indexOf(paramStr(pin)) === 0
   }
 
   function endsWith(str, pin) {
     if (str === null || pin === null) {
       return null
     }
-    const stra = (str instanceof Array) ? str.join() : String(str)
-    const pina = (pin instanceof Array) ? pin.join() : String(pin)
+    const stra = paramStr(str)
+    const pina = paramStr(pin)
     return (stra.indexOf(pina) + pina.length) === stra.length
   }
 
@@ -900,16 +852,28 @@ let Parser = (function (scope) {
     if (str === null) {
       return null
     }
-    const stra = (str instanceof Array) ? str.join() : String(str)
-    return stra.toLowerCase()
+    return paramStr(str).toLowerCase()
   }
 
   function toupperFunc(str) {
     if (str === null) {
       return null
     }
-    const stra = (str instanceof Array) ? str.join() : String(str)
-    return stra.toUpperCase()
+    return paramStr(str).toUpperCase()
+  }
+
+  function paramStr(value) {
+    let val = value
+    val = (Array.isArray(val)) ? val.join() : val
+    val = (val === false || val === null) ? '' : val
+    return String(val)
+  }
+
+  function paramNum(value) {
+    let val = value
+    val = (Array.isArray(val)) ? val.join() : val
+    val = (val === false || val === null) ? 0 : val
+    return parseInt(val)
   }
 
   Parser.timeOffset = (new Date()).getTimezoneOffset()
