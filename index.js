@@ -613,7 +613,6 @@ let Parser = (function (scope) {
       nl = '\r'
     }
     arraya = stra.replace('\r\n', '\n').replace('\r', '\n').split('\n')
-    strb = (b instanceof Array) ? b.join() : b
     arrayb = strb.replace('\r\n', '\n').replace('\r', '\n').split('\n')
     return [arraya, arrayb, nl]
   }
