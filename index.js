@@ -722,9 +722,22 @@ let Parser = (function (scope) {
     return IMLibFormat.currencyFormat(paramStr(val), paramNum(digit), {useSeparator: true})
   }
 
-  function substr(str, pos, len) {
+  function substr(str, pos, len = 1) {
     if (str == null) {
       return null
+    }
+    if (pos < 0) {
+      const l = length(str)
+      pos = l + pos
+    }
+    if (len < 0) {
+      const origLen = len
+      pos += len
+      len *= -1
+      if (pos < 0) {
+        len = pos - origLen
+        pos = 0
+      }
     }
     return paramStr(str).substr(paramNum(pos), paramNum(len))
   }
@@ -732,6 +745,16 @@ let Parser = (function (scope) {
   function substring(str, start, end) {
     if (str == null) {
       return null
+    }
+    const len = length(str)
+    if (start < 0) {
+      start = len + start
+    }
+    if (end < 0) {
+      end = len + end
+    }
+    if (typeof end === 'undefined') {
+      end = start + 1
     }
     return paramStr(str).substring(paramNum(start), paramNum(end))
   }
@@ -761,7 +784,7 @@ let Parser = (function (scope) {
     if (str == null) {
       return null
     }
-    if (from == undefined) {
+    if (typeof from === 'undefined') {
       return paramStr(str).indexOf(paramStr(search))
     }
     return paramStr(str).indexOf(paramStr(search), paramStr(from))
@@ -771,7 +794,7 @@ let Parser = (function (scope) {
     if (str == null) {
       return null
     }
-    if (from == undefined) {
+    if (typeof from === 'undefined') {
       return paramStr(str).lastIndexOf(paramStr(search))
     }
     return paramStr(str).lastIndexOf(paramStr(search), paramStr(from))

@@ -1,6 +1,6 @@
 {
     "name": "inter-mediator-expressionparser",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "description": "The expression parser of INTER-Mediator core.",
     "main": "index.js",
     "type": "module",
@@ -17,11 +17,11 @@
         "parser"
     ],
     "devDependencies": {
-        "jest": "^26.1.0",
-        "lodash": ">=4.17.19"
+        "jest": "^26.6.3",
+        "lodash": "^4.17.20"
     },
     "dependencies": {
-        "inter-mediator-formatter": "^1.0.6",
+        "inter-mediator-formatter": "^1.0.18",
         "inter-mediator-locale": "^1.0.4"
     },
     "author": "Masayuki Nii and INTER-Mediator contributers, Based on ndef.parser, by Raphael Graf(r@undefined.ch)",
