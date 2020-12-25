@@ -1,9 +1,8 @@
 {
     "name": "inter-mediator-expressionparser",
-    "version": "1.0.14",
+    "version": "1.0.15",
     "description": "The expression parser of INTER-Mediator core.",
     "main": "index.js",
-    "type": "module",
     "scripts": {
         "test": "node_modules/jest/bin/jest.js expression.test.js"
     },
