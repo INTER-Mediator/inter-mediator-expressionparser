@@ -140,6 +140,24 @@ test('should be equal to', () => {
     expect(parser.evaluate('a ⊬ b ', {a: 'abc\ndff\nghi', b: 'ghi\ndkg\n'})).toBe('abc\ndff\n')
   }
 )
+test('should not be equal to', () => {
+  expect(parser.evaluate('a <> b ', {a: 1, b: 2})).toBe(true)
+  expect(parser.evaluate('a <> b ', {a: 1, b: '2'})).toBe(true)
+  expect(parser.evaluate('a <> b ', {a: '1', b: '2'})).toBe(true)
+  expect(parser.evaluate('a <> b ', {a: '2', b: '2'})).toBe(false)
+  expect(parser.evaluate('a <> b ', {a: 2, b: '2'})).toBe(false)
+  expect(2 != '02').toBe(false)
+  expect(parser.evaluate('a <> b ', {a: 2, b: '02'})).toBe(false)
+  expect(2 != '02x').toBe(true)
+  expect(parser.evaluate('a <> b ', {a: 2, b: '02x'})).toBe(true)
+  expect(parser.evaluate('a <> b ', {a: 'abc', b: 'def'})).toBe(true)
+  expect(parser.evaluate('a != b ', {a: 1, b: 2})).toBe(true)
+  expect(parser.evaluate('a != b ', {a: 1, b: '2'})).toBe(true)
+  expect(parser.evaluate('a != b ', {a: '1', b: '2'})).toBe(true)
+  expect(parser.evaluate('a != b ', {a: '2', b: '2'})).toBe(false)
+  expect(parser.evaluate('a != b ', {a: 'abc', b: 'def'})).toBe(true)
+  }
+)
 
 test('should be equal to', () => {
     INTERMediatorLocale = {
