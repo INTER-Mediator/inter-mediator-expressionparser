@@ -251,7 +251,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa)) {
+    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
       return Number(numa) > Number(numb)
     }
     return a > b
@@ -261,7 +261,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa)) {
+    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
       return Number(numa) < Number(numb)
     }
     return a < b
@@ -271,7 +271,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa)) {
+    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
       return Number(numa) >= Number(numb)
     }
     return a >= b
@@ -281,7 +281,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa)) {
+    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
       return Number(numa) <= Number(numb)
     }
     return a <= b
@@ -291,7 +291,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa)) {
+    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
       return Number(numa) === Number(numb)
     }
     return a == b
