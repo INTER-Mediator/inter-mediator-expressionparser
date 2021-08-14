@@ -470,6 +470,13 @@ let Parser = (function (scope) {
     }
   }
 
+  function isnull(a) {
+    if(a === null) {
+      return true
+    }
+    return false
+  }
+
   /**
    * This method returns the rounded value of the 1st parameter to the 2nd parameter from decimal point.
    * @param {number} value The source value.
@@ -1257,6 +1264,7 @@ let Parser = (function (scope) {
       'sqrt': Math.sqrt,
       'log': Math.log,
       'abs': Math.abs,
+      'isnull': isnull,
       'ceil': Math.ceil,
       'floor': Math.floor,
       'round': roundfunc,
