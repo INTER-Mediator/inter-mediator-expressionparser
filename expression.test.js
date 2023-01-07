@@ -163,12 +163,12 @@ test('should not be equal to', () => {
   }
 )
 test('isnull function test', () => {
-  expect(parser.evaluate('isnull(a)', {a: null})).toBe(true)
-  expect(parser.evaluate('isnull(a)', {a: ""})).toBe(false)
-  expect(parser.evaluate('isnull(a)', {a: 0})).toBe(false)
-  expect(parser.evaluate('isnull(a)', {a: 1})).toBe(false)
-  expect(parser.evaluate('isnull(a)', {a: false})).toBe(false)
-  expect(parser.evaluate('isnull(a)', {a: undefined})).toBe(false)
+    expect(parser.evaluate('isnull(a)', {a: null})).toBe(true)
+    expect(parser.evaluate('isnull(a)', {a: ""})).toBe(false)
+    expect(parser.evaluate('isnull(a)', {a: 0})).toBe(false)
+    expect(parser.evaluate('isnull(a)', {a: 1})).toBe(false)
+    expect(parser.evaluate('isnull(a)', {a: false})).toBe(false)
+    expect(parser.evaluate('isnull(a)', {a: undefined})).toBe(false)
   }
 )
 
@@ -711,5 +711,12 @@ test('Logical operator minus.', () => {
     expect(parser.evaluate('!a', {a: [100, 200]})).toBe(false)
     expect(parser.evaluate('!a', {a: {}})).toBe(false)
     expect(parser.evaluate('!a', {a: {f: 100, s: 200}})).toBe(false)
+  }
+)
+test('Percent encode/decode test.', () => {
+    expect(parser.evaluate('decodeURI(a)', {a: 'STRING%28%29='})).toBe('STRING()=')
+    expect(parser.evaluate('encodeURI(a)', {a: 'STRING文字列='})).toBe('STRING%E6%96%87%E5%AD%97%E5%88%97=')
+    expect(parser.evaluate('decodeURIComponent(a)', {a: 'STRING%28%29='})).toBe('STRING()=')
+    expect(parser.evaluate('encodeURIComponent(a)', {a: 'STRING文字列='})).toBe('STRING%E6%96%87%E5%AD%97%E5%88%97%3D')
   }
 )

@@ -471,7 +471,7 @@ let Parser = (function (scope) {
   }
 
   function isnull(a) {
-    if(a === null) {
+    if (a === null) {
       return true
     }
     return false
@@ -889,6 +889,34 @@ let Parser = (function (scope) {
       return null
     }
     return paramStr(str).toUpperCase()
+  }
+
+  function decodeURIFunc(str) {
+    if (str === null) {
+      return null
+    }
+    return decodeURI(paramStr(str))
+  }
+
+  function encodeURIFunc(str) {
+    if (str === null) {
+      return null
+    }
+    return encodeURI(paramStr(str))
+  }
+
+  function decodeURIComponentFunc(str) {
+    if (str === null) {
+      return null
+    }
+    return decodeURIComponent(paramStr(str))
+  }
+
+  function encodeURIComponentFunc(str) {
+    if (str === null) {
+      return null
+    }
+    return encodeURIComponent(paramStr(str))
   }
 
   function paramStr(value) {
@@ -1329,7 +1357,11 @@ let Parser = (function (scope) {
       'startsWith': startsWith,
       'endsWith': endsWith,
       'tolower': tolowerFunc,
-      'toupper': toupperFunc
+      'toupper': toupperFunc,
+      'decodeURI': decodeURIFunc,
+      'encodeURI': encodeURIFunc,
+      'decodeURIComponent': decodeURIComponentFunc,
+      'encodeURIComponent': encodeURIComponentFunc
     }
 
     this.consts = {

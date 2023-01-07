@@ -1,6 +1,6 @@
 {
     "name": "inter-mediator-expressionparser",
-    "version": "1.0.18",
+    "version": "1.0.19",
     "description": "The expression parser of INTER-Mediator core.",
     "main": "index.js",
     "scripts": {
@@ -16,7 +16,7 @@
         "parser"
     ],
     "devDependencies": {
-        "jest": ">=26.6.3",
+        "jest": "^29.3.1",
         "lodash": ">=4.17.20"
     },
     "dependencies": {
