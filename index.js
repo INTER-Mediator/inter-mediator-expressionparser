@@ -927,9 +927,7 @@ let Parser = (function (scope) {
     const nodes = path.split(".")
     let result = parsed
     for(const node of nodes){
-      console.log(node, result)
       result = result[node]
-      console.log(result)
     }
     return result
   }
