@@ -727,14 +727,14 @@ test('Percent encode/decode test.', () => {
 
 test('JSON parse test.', () => {
     const jsonstr = '{"a":1,"b":2,"c":[4,5,6],"d":{"a":7,"b":8}}'
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "a"})).toBe(1)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "b"})).toBe(2)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.0"})).toBe(4)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.1"})).toBe(5)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.a"})).toBe(7)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.b"})).toBe(8)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "x"})).toBe(undefined)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.9"})).toBe(undefined)
-    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.d"})).toBe(undefined)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "a"})).toBe(1)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "b"})).toBe(2)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "c.0"})).toBe(4)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "c.1"})).toBe(5)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "d.a"})).toBe(7)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "d.b"})).toBe(8)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "x"})).toBe(undefined)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "c.9"})).toBe(undefined)
+    expect(parser.evaluate('jsonperse(a,b)', {a: jsonstr, b: "d.d"})).toBe(undefined)
   }
 )
