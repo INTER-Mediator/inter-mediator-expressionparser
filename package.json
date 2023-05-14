@@ -1,6 +1,6 @@
 {
     "name": "inter-mediator-expressionparser",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "description": "The expression parser of INTER-Mediator core.",
     "main": "index.js",
     "scripts": {

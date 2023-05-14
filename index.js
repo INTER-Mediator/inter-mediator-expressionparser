@@ -919,7 +919,7 @@ let Parser = (function (scope) {
     return encodeURIComponent(paramStr(str))
   }
 
-  function jsonperse(jstr, path){
+  function jsonparse(jstr, path){
     if (jstr === null || path === null) {
       return null
     }
@@ -1377,7 +1377,7 @@ let Parser = (function (scope) {
       'encodeURI': encodeURIFunc,
       'decodeURIComponent': decodeURIComponentFunc,
       'encodeURIComponent': encodeURIComponentFunc,
-      'jsonperse': jsonperse
+      'jsonparse': jsonparse
     }
 
     this.consts = {
