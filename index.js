@@ -919,6 +919,21 @@ let Parser = (function (scope) {
     return encodeURIComponent(paramStr(str))
   }
 
+  function jsonparse(jstr, path){
+    if (jstr === null || path === null) {
+      return null
+    }
+    const parsed = JSON.parse(jstr)
+    const nodes = path.split(".")
+    let result = parsed
+    for(const node of nodes){
+      console.log(node, result)
+      result = result[node]
+      console.log(result)
+    }
+    return result
+  }
+
   function paramStr(value) {
     let val = value
     val = (Array.isArray(val)) ? val.join() : val
@@ -1361,7 +1376,8 @@ let Parser = (function (scope) {
       'decodeURI': decodeURIFunc,
       'encodeURI': encodeURIFunc,
       'decodeURIComponent': decodeURIComponentFunc,
-      'encodeURIComponent': encodeURIComponentFunc
+      'encodeURIComponent': encodeURIComponentFunc,
+      'jsonparse': jsonparse
     }
 
     this.consts = {

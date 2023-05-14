@@ -714,9 +714,27 @@ test('Logical operator minus.', () => {
   }
 )
 test('Percent encode/decode test.', () => {
-    expect(parser.evaluate('decodeURI(a)', {a: 'STRING%28%29='})).toBe('STRING()=')
-    expect(parser.evaluate('encodeURI(a)', {a: 'STRING文字列='})).toBe('STRING%E6%96%87%E5%AD%97%E5%88%97=')
-    expect(parser.evaluate('decodeURIComponent(a)', {a: 'STRING%28%29='})).toBe('STRING()=')
-    expect(parser.evaluate('encodeURIComponent(a)', {a: 'STRING文字列='})).toBe('STRING%E6%96%87%E5%AD%97%E5%88%97%3D')
+    expect(parser.evaluate('decodeURI(a)', {a: 'STRING%28%29='}))
+      .toBe('STRING()=')
+    expect(parser.evaluate('encodeURI(a)', {a: 'STRING文字列='}))
+      .toBe('STRING%E6%96%87%E5%AD%97%E5%88%97=')
+    expect(parser.evaluate('decodeURIComponent(a)', {a: 'STRING%28%29='}))
+      .toBe('STRING()=')
+    expect(parser.evaluate('encodeURIComponent(a)', {a: 'STRING文字列='}))
+      .toBe('STRING%E6%96%87%E5%AD%97%E5%88%97%3D')
+  }
+)
+
+test('JSON parse test.', () => {
+    const jsonstr = '{"a":1,"b":2,"c":[4,5,6],"d":{"a":7,"b":8}}'
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "a"})).toBe(1)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "b"})).toBe(2)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.0"})).toBe(4)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.1"})).toBe(5)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.a"})).toBe(7)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.b"})).toBe(8)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "x"})).toBe(undefined)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "c.9"})).toBe(undefined)
+    expect(parser.evaluate('jsonparse(a,b)', {a: jsonstr, b: "d.d"})).toBe(undefined)
   }
 )
