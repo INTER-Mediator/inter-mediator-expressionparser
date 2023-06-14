@@ -318,7 +318,7 @@ let Parser = (function (scope) {
     if ((typeof a) == 'string' || (typeof b) == 'string') {
       return addstring(a, b)
     }
-    if (isReallyNaN(a) || isReallyNaN(b)) {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
       return NaN
     }
     numa = toNumber(a)
@@ -335,11 +335,11 @@ let Parser = (function (scope) {
 
   function sub(a, b) {
     let numa, numb, str, pos
-    if (isReallyNaN(a) || isReallyNaN(b)) {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
       return NaN
     }
-    numa = toNumber(a)
-    numb = toNumber(b)
+    numa = (a === null || a === '') ? 0 : toNumber(a)
+    numb = (b === null || b === '') ? 0 : toNumber(b)
 
     if (!isNaN(numa) && !isNaN(numb)) {
       return numa - numb   // Numeric substruct
@@ -355,20 +355,20 @@ let Parser = (function (scope) {
   }
 
   function mul(a, b) {
-    if (isReallyNaN(a) || isReallyNaN(b)) {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
       return NaN
     }
-    a = toNumber(a)
-    b = toNumber(b)
+    a = (a === null || a === '') ? 0 : toNumber(a)
+    b = (b === null || b === '') ? 0 : toNumber(b)
     return a * b
   }
 
   function div(a, b) {
-    if (isReallyNaN(a) || isReallyNaN(b)) {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
       return NaN
     }
-    a = toNumber(a)
-    b = toNumber(b)
+    a = (a === null || a === '') ? 0 : toNumber(a)
+    b = (b === null || b === '') ? 0 : toNumber(b)
     return a / b
   }
 
@@ -919,14 +919,14 @@ let Parser = (function (scope) {
     return encodeURIComponent(paramStr(str))
   }
 
-  function jsonparse(jstr, path){
+  function jsonparse(jstr, path) {
     if (jstr === null || path === null) {
       return null
     }
     const parsed = JSON.parse(jstr)
     const nodes = path.split(".")
     let result = parsed
-    for(const node of nodes){
+    for (const node of nodes) {
       result = result[node]
     }
     return result
