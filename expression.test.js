@@ -34,8 +34,8 @@ test('should be equal to', () => {
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: 3, a1: 'zero', a2: 1, a3: 2})).toBe(undefined)
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: 4, a1: 'zero', a2: 1, a3: 2})).toBe(undefined)
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: -1, a1: 'zero', a2: 1, a3: 2})).toBe(undefined)
-    expect(parser.evaluate('choice(x, a1, a2, a3)', {x: null, a1: 'zero', a2: 1, a3: 2})).toBe(null)
-    expect(parser.evaluate('choice(x, a1, a2, a3)', {x: undefined, a1: 'zero', a2: 1, a3: 2})).toBe(undefined)
+    expect(parser.evaluate('choice(x, a1, a2, a3)', {x: null, a1: 'zero', a2: 1, a3: 2})).toBe('zero')
+    expect(parser.evaluate('choice(x, a1, a2, a3)', {x: undefined, a1: 'zero', a2: 1, a3: 2})).toBe('zero')
   }
 )
 

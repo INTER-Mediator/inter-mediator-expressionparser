@@ -2,7 +2,7 @@
  Based on ndef.parser, by Raphael Graf(r@undefined.ch)
  http://www.undefined.ch/mparser/index.html
  Ported to JavaScript and modified by Matthew Crumley (email@matthewcrumley.com, http://silentmatt.com/)
- You are free to use and modify this code in anyway you find useful. Please leave this comment in the code
+ You are free to use and modify this code in any way you find useful. Please leave this comment in the code
  to acknowledge its original source. If you feel like it, I enjoy hearing about projects that use my code,
  but don't feel like you have to let me know or ask permission.
  */
@@ -18,7 +18,7 @@
  */
 /**
  *
- * Usually you don't have to instantiate this class with new operator.
+ * Usually you don't have to instantiate this class with a new operator.
  * @constructor
  */
 let Parser = (function (scope) {
@@ -164,28 +164,23 @@ let Parser = (function (scope) {
     evaluate: function (values) {
       values = values || {}
       let nstack = []
-      let n1
-      let n2
-      let n3
-      let f
       let L = this.tokens.length
       let item
-      let i = 0
-      for (i = 0; i < L; i++) {
+      for (let i = 0; i < L; i++) {
         item = this.tokens[i]
         let type_ = item.type_
         if (type_ === TNUMBER) {
           nstack.push(item.number_)
         } else if (type_ === TOP3) {
-          n3 = nstack.pop()
-          n2 = nstack.pop()
-          n1 = nstack.pop()
-          f = Parser.ops3Trail[item.index_]
+          const n3 = nstack.pop()
+          const n2 = nstack.pop()
+          const n1 = nstack.pop()
+          const f = Parser.ops3Trail[item.index_]
           nstack.push(f(n1, n2, n3))
         } else if (type_ === TOP2) {
-          n2 = nstack.pop()
-          n1 = nstack.pop()
-          f = Parser.ops2[item.index_]
+          const n2 = nstack.pop()
+          const n1 = nstack.pop()
+          const f = Parser.ops2[item.index_]
           nstack.push(f(n1, n2))
         } else if (type_ === TVAR) {
           if (item.index_ in values) {
@@ -196,19 +191,19 @@ let Parser = (function (scope) {
             throw new Error('undefined variable: ' + item.index_)
           }
         } else if (type_ === TOP1) {
-          n1 = nstack.pop()
-          f = Parser.ops1[item.index_]
+          const n1 = nstack.pop()
+          const f = Parser.ops1[item.index_]
           nstack.push(f(n1))
         } else if (type_ === SEP) {
-          n2 = nstack.pop()
-          n1 = nstack.pop()
+          const n2 = nstack.pop()
+          const n1 = nstack.pop()
           nstack.push([n1, n2])
         } else if (type_ === TFUNCALL) {
-          n1 = nstack.pop()
-          f = nstack.pop()
+          const n1 = nstack.pop()
+          const f = nstack.pop()
 
           if (f.apply && f.call) {
-            if (Object.prototype.toString.call(n1) == '[object Array]') {
+            if (Object.prototype.toString.call(n1) === '[object Array]') {
               nstack.push(f.apply(undefined, n1))
             } else {
               nstack.push(f.call(undefined, n1))
@@ -231,7 +226,7 @@ let Parser = (function (scope) {
       let vars = []
       for (let i = 0; i < L; i++) {
         let item = this.tokens[i]
-        if (item.type_ === TVAR && (vars.indexOf(item.index_) == -1) && !(item.index_ in Parser.functions)) {
+        if (item.type_ === TVAR && (vars.indexOf(item.index_) === -1) && !(item.index_ in Parser.functions)) {
           vars.push(item.index_)
         }
       }
@@ -251,7 +246,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
+    if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
       return Number(numa) > Number(numb)
     }
     return a > b
@@ -261,7 +256,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
+    if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
       return Number(numa) < Number(numb)
     }
     return a < b
@@ -271,7 +266,7 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
+    if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
       return Number(numa) >= Number(numb)
     }
     return a >= b
@@ -281,30 +276,32 @@ let Parser = (function (scope) {
     let numa, numb
     numa = toNumber(a)
     numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
+    if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
       return Number(numa) <= Number(numb)
     }
     return a <= b
   }
 
   function equal(a, b) {
-    let numa, numb
-    numa = toNumber(a)
-    numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
-      return Number(numa) === Number(numb)
-    }
-    return a == b
+    // let numa, numb
+    // numa = toNumber(a)
+    // numb = toNumber(b)
+    // if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
+    //   return Number(numa) === Number(numb)
+    // }
+    // return a === b
+    return a == b // Don't set the operator to ===
   }
 
   function notequal(a, b) {
-    let numa, numb
-    numa = toNumber(a)
-    numb = toNumber(b)
-    if (!isNaN(numa) && !isNaN(numa) && numa == a && numb == b) {
-      return Number(numa) !== Number(numb)
-    }
-    return a !== b
+    // let numa, numb
+    // numa = toNumber(a)
+    // numb = toNumber(b)
+    // if (!isNaN(numa) && !isNaN(numa) && numa === a && numb === b) {
+    //   return Number(numa) !== Number(numb)
+    // }
+    // return a !== b
+    return a != b // Don't set the operator tor !==
   }
 
   // http://qiita.com/south37/items/e400a3a698957ab4aa7a
@@ -315,10 +312,10 @@ let Parser = (function (scope) {
 
   function add(a, b) {
     let numa, numb
-    if ((typeof a) == 'string' || (typeof b) == 'string') {
+    if ((typeof a) === 'string' || (typeof b) === 'string') {
       return addstring(a, b)
     }
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) === 'undefined' || typeof (b) === 'undefined') {
       return NaN
     }
     numa = toNumber(a)
@@ -348,14 +345,14 @@ let Parser = (function (scope) {
     do {  // String substruct
       pos = str.indexOf(b)
       if (pos > -1) {
-        str = str.substr(0, pos) + str.substr(pos + b.length)
+        str = str.substring(0, pos) + str.substring(pos + b.length)
       }
     } while (pos > -1)
     return str
   }
 
   function mul(a, b) {
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
+    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) === 'undefined' || typeof (b) === 'undefined') {
       return NaN
     }
     a = (a === null || a === '') ? 0 : toNumber(a)
@@ -408,7 +405,7 @@ let Parser = (function (scope) {
   }
 
   function implies(a, b) {
-    return !(toValue(a) == true && toValue(b) == false)
+    return !(toValue(a) === true && toValue(b) === false)
   }
 
   function logicalnot(a) {
@@ -461,7 +458,7 @@ let Parser = (function (scope) {
   }
 
   function roundfunc(a, b) {
-    if (b == undefined) {
+    if (b === undefined) {
       return Math.round(a)
     } else {
       a = (a instanceof Array) ? a.join() : a
@@ -471,16 +468,13 @@ let Parser = (function (scope) {
   }
 
   function isnull(a) {
-    if (a === null) {
-      return true
-    }
-    return false
+    return a === null;
   }
 
   /**
    * This method returns the rounded value of the 1st parameter to the 2nd parameter from decimal point.
    * @param {number} value The source value.
-   * @param {integer} digit Positive number means after the decimal point, and negative menas before it.
+   * @param {number} digit Positive number means after the decimal point, and negative menas before it.
    * @returns {number}
    */
   function round(value, digit) {
@@ -490,7 +484,7 @@ let Parser = (function (scope) {
   }
 
   function length(a) {
-    if (a == undefined || a == null) {
+    if (a === undefined || a === null) {
       return 0
     }
     return paramStr(a).length
@@ -509,7 +503,7 @@ let Parser = (function (scope) {
     if (str === false) {
       return false
     }
-    if (str == '') {
+    if (str === '') {
       return 0
     }
     value = str
@@ -542,7 +536,7 @@ let Parser = (function (scope) {
   }
 
   function append(a, b) {
-    if (Object.prototype.toString.call(a) != '[object Array]') {
+    if (Object.prototype.toString.call(a) !== '[object Array]') {
       return [a, b]
     }
     a = a.slice()
@@ -558,45 +552,45 @@ let Parser = (function (scope) {
   }
 
   function charsetand(a, b) {
-    let stra, strb, i, result = ''
+    let result = ''
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = paramStrList(a)
-    strb = paramStrList(b)
-    for (i = 0; i < stra.length; i++) {
-      if (strb.indexOf(stra.substr(i, 1)) > -1) {
-        result += stra.substr(i, 1)
+    const stra = paramStrList(a)
+    const strb = paramStrList(b)
+    for (let i = 0; i < stra.length; i++) {
+      if (strb.indexOf(stra.substring(i, i + 1)) > -1) {
+        result += stra.substring(i, i + 1)
       }
     }
     return result
   }
 
   function charsetor(a, b) {
-    let stra, strb, i, result = ''
+    let result = ''
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = paramStrList(a)
-    strb = paramStrList(b)
-    for (i = 0; i < strb.length; i++) {
-      if (stra.indexOf(strb.substr(i, 1)) < 0) {
-        result += strb.substr(i, 1)
+    const stra = paramStrList(a)
+    const strb = paramStrList(b)
+    for (let i = 0; i < strb.length; i++) {
+      if (stra.indexOf(strb.substring(i, i + 1)) < 0) {
+        result += strb.substring(i, i + 1)
       }
     }
     return stra + result
   }
 
   function charsetnoother(a, b) {
-    let stra, strb, i, result = ''
+    let result = ''
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = paramStrList(a)
-    strb = paramStrList(b)
-    for (i = 0; i < stra.length; i++) {
-      if (strb.indexOf(stra.substr(i, 1)) < 0) {
-        result += stra.substr(i, 1)
+    const stra = paramStrList(a)
+    const strb = paramStrList(b)
+    for (let i = 0; i < stra.length; i++) {
+      if (strb.indexOf(stra.substring(i, i + 1)) < 0) {
+        result += stra.substring(i, i + 1)
       }
     }
     return result
@@ -604,14 +598,14 @@ let Parser = (function (scope) {
 
   /* ===== private ===== */
   function parametersOfMultiline(a, b) {
-    let stra, strb, arraya, arrayb, i, nls, nl = '\n'
+    let nl = '\n'
     if (a === null || a === undefined || b === null || b === undefined) {
       return null
     }
-    stra = paramStrList(a)
-    strb = paramStrList(b)
-    nls = [stra.indexOf('\r\n'), stra.indexOf('\r'), stra.indexOf('\n')]
-    for (i = 0; i < nls.length; i++) {
+    const stra = paramStrList(a)
+    const strb = paramStrList(b)
+    const nls = [stra.indexOf('\r\n'), stra.indexOf('\r'), stra.indexOf('\n')]
+    for (let i = 0; i < nls.length; i++) {
       nls[i] = (nls[i] < 0) ? stra.length : nls[i]
     }
     if (nls[0] < stra.length && nls[0] <= nls[1] && nls[0] < nls[2]) {
@@ -619,23 +613,23 @@ let Parser = (function (scope) {
     } else if (nls[1] < stra.length && nls[1] < nls[0] && nls[1] < nls[2]) {
       nl = '\r'
     }
-    arraya = stra.replace('\r\n', '\n').replace('\r', '\n').split('\n')
-    arrayb = strb.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    const arraya = stra.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    const arrayb = strb.replace('\r\n', '\n').replace('\r', '\n').split('\n')
     return [arraya, arrayb, nl]
   }
 
   /* ===== private ===== */
 
   function itemsetand(a, b) {
-    let params, arraya, arrayb, nl, i, result = ''
-    params = parametersOfMultiline(a, b)
+    let result = ''
+    const params = parametersOfMultiline(a, b)
     if (params === null) {
       return null
     }
-    arraya = params[0]
-    arrayb = params[1]
-    nl = params[2]
-    for (i = 0; i < arraya.length; i++) {
+    const arraya = params[0]
+    const arrayb = params[1]
+    const nl = params[2]
+    for (let i = 0; i < arraya.length; i++) {
       if (arrayb.indexOf(arraya[i]) > -1 && arraya[i].length > 0) {
         result += arraya[i] + nl
       }
@@ -644,20 +638,20 @@ let Parser = (function (scope) {
   }
 
   function itemsetor(a, b) {
-    let params, arraya, arrayb, nl, i, result = ''
-    params = parametersOfMultiline(a, b)
+    let  result = ''
+    const params = parametersOfMultiline(a, b)
     if (params === null) {
       return null
     }
-    arraya = params[0]
-    arrayb = params[1]
-    nl = params[2]
+    const arraya = params[0]
+    const arrayb = params[1]
+    const  nl = params[2]
     for (i = 0; i < arraya.length; i++) {
       if (arraya[i].length > 0) {
         result += arraya[i] + nl
       }
     }
-    for (i = 0; i < arrayb.length; i++) {
+    for (let i = 0; i < arrayb.length; i++) {
       if (arraya.indexOf(arrayb[i]) < 0 && arrayb[i].length > 0) {
         result += arrayb[i] + nl
       }
@@ -666,15 +660,15 @@ let Parser = (function (scope) {
   }
 
   function itemsetnoother(a, b) {
-    let params, arraya, arrayb, nl, i, result = ''
-    params = parametersOfMultiline(a, b)
+    let result = ''
+    const params = parametersOfMultiline(a, b)
     if (params === null) {
       return null
     }
-    arraya = params[0]
-    arrayb = params[1]
-    nl = params[2]
-    for (i = 0; i < arraya.length; i++) {
+    const arraya = params[0]
+    const arrayb = params[1]
+    const nl = params[2]
+    for (let i = 0; i < arraya.length; i++) {
       if (arrayb.indexOf(arraya[i]) < 0 && arraya[i].length > 0) {
         result += arraya[i] + nl
       }
@@ -683,15 +677,15 @@ let Parser = (function (scope) {
   }
 
   function itematindex(a, start, end) {
-    let params, arraya, nl, i, result = ''
-    params = parametersOfMultiline(a, '')
+    let result = ''
+    const params = parametersOfMultiline(a, '')
     if (params === null) {
       return null
     }
-    arraya = params[0]
-    nl = params[2]
-    end = (end == undefined) ? arraya.length : end
-    for (i = start; (i < start + end) && (i < arraya.length); i++) {
+    const arraya = params[0]
+    const nl = params[2]
+    end = (end === undefined) ? arraya.length : end
+    for (let i = start; (i < start + end) && (i < arraya.length); i++) {
       result += arraya[i] + nl
     }
     return result
@@ -707,13 +701,13 @@ let Parser = (function (scope) {
     while (a.length > 0) {
       pos = a.indexOf('\n')
       if (pos > -1) {
-        item = a.substr(0, pos)
-        a = a.substr(pos + 1)
+        item = a.substring(0, pos)
+        a = a.substring(pos + 1)
       } else {
         item = a
         a = ''
       }
-      if (item == str) {
+      if (item === str) {
         return ix
       }
       ix++
@@ -746,7 +740,7 @@ let Parser = (function (scope) {
         pos = 0
       }
     }
-    return paramStr(str).substr(paramNum(pos), paramNum(len))
+    return paramStr(str).substring(paramNum(pos), paramNum(pos) + paramNum(len))
   }
 
   function substring(str, start, end) {
@@ -777,7 +771,7 @@ let Parser = (function (scope) {
     if (str == null) {
       return null
     }
-    return paramStr(str).substr(paramNum(start), paramNum(end))
+    return paramStr(str).substring(paramNum(start), paramNum(start) + paramNum(end))
   }
 
   function rightstring(str, start) {
@@ -811,7 +805,7 @@ let Parser = (function (scope) {
     if (str == null) {
       return null
     }
-    return paramStr(str).substr(0, paramNum(start)) + paramStr(rep) + paramStr(str).substr(paramNum(end))
+    return paramStr(str).substring(0, paramNum(start)) + paramStr(rep) + paramStr(str).substring(paramNum(end))
   }
 
   function substitute(str, search, rep) {
@@ -838,10 +832,10 @@ let Parser = (function (scope) {
       return null
     }
     let str = paramStr(path)
-    if (str.substr(-1) == '/') {
-      str = str.substr(0, str.length - 1)
+    if (str.substring(str.length - 1) === '/') {
+      str = str.substring(0, str.length - 1)
     }
-    return str.substr(str.lastIndexOf('/') - str.length + 1)
+    return str.substring(str.lastIndexOf('/') + 1)
   }
 
   function extname(path) {
@@ -850,7 +844,7 @@ let Parser = (function (scope) {
     }
     const str = paramStr(path)
     const dotPos = str.lastIndexOf('.')
-    return (dotPos < 0) ? '' : str.substr(str.lastIndexOf('.') - str.length + 1)
+    return (dotPos < 0) ? '' : str.substring(str.lastIndexOf('.') + 1)
   }
 
   function dirname(path) {
@@ -858,7 +852,7 @@ let Parser = (function (scope) {
       return null
     }
     const str = paramStr(path)
-    return str.substr(0, str.lastIndexOf('/'))
+    return str.substring(0, str.lastIndexOf('/'))
   }
 
   function startsWith(str, pin) {
@@ -972,7 +966,7 @@ let Parser = (function (scope) {
 
   /* Internal use for date time functions */
   function dvalue(s) {
-    if (parseInt(s).length == s.length) {
+    if (parseInt(s).length === s.length) {
       return s
     } else {
       return DateInt(s)
@@ -980,7 +974,7 @@ let Parser = (function (scope) {
   }
 
   function dtvalue(s) {
-    if (parseInt(s).length == s.length) {
+    if (parseInt(s).length === s.length) {
       return s
     } else {
       return SecondInt(s)
@@ -1195,12 +1189,14 @@ let Parser = (function (scope) {
   }
 
   function startofmonthd(d) {
-    let str = yeard(d) + '/' + ('0' + monthd(d)).substr(-2, 2) + '/01'
+    const monStr = '0' + monthd(d)
+    const str = yeard(d) + '/' + monStr.substring(monStr.length - 2) + '/01'
     return DateInt(str)
   }
 
   function startofmonthdt(dt) {
-    let str = yeardt(dt) + '/' + ('0' + monthdt(dt)).substr(-2, 2) + '/01 00:00:00'
+    const monStr = '0' + monthd(d)
+    const str = yeardt(dt) + '/' + monStr.substring(monStr.length - 2) + '/01 00:00:00'
     return SecondInt(str)
   }
 
@@ -1217,12 +1213,12 @@ let Parser = (function (scope) {
     valueString = String(value)
     numberString = ''
     for (i = 0; i < valueString.length; i++) {
-      c = valueString.substr(i, 1)
+      c = valueString.substring(i, i + 1)
       if (c >= '0' && c <= '9') {
         numberString += c
       } else if (c >= '０' && c <= '９') {
         numberString += String.fromCharCode('0'.charCodeAt(0) + c.charCodeAt(0) - '０'.charCodeAt(0))
-      } else if (c == '.' || c == '-') {
+      } else if (c === '.' || c === '-') {
         numberString += c
       }
     }
@@ -1231,10 +1227,11 @@ let Parser = (function (scope) {
 
   function choiceFunc() {
     let index
-    if (arguments[0] == null || arguments[0] == undefined) {
-      return arguments[0]
+    if (arguments[0] === null || arguments[0] === undefined || arguments[0] === '') {
+      index = 0
+    } else {
+      index = parseInt(arguments[0])
     }
-    index = parseInt(arguments[0])
     if (index < 0 || index >= (arguments.length - 1)) {
       return undefined
     }
@@ -1244,7 +1241,7 @@ let Parser = (function (scope) {
   function conditionFunc() {
     let index
     for (index = 0; index < arguments.length; index += 2) {
-      if (arguments[index] == true && index + 1 < arguments.length) {
+      if (arguments[index] === true && index + 1 < arguments.length) {
         return arguments[index + 1]
       }
     }
@@ -1254,7 +1251,7 @@ let Parser = (function (scope) {
   function accumulateFunc() {
     let index, c = ''
     for (index = 0; index < arguments.length; index += 2) {
-      if (arguments[index] == true && index + 1 < arguments.length) {
+      if (arguments[index] === true && index + 1 < arguments.length) {
         c = c + arguments[index + 1] + '\n'
       }
     }
@@ -1508,7 +1505,7 @@ let Parser = (function (scope) {
             if ((expected & OPERATOR) === 0) {
               this.error_parsing(this.pos, 'unexpected operator')
             }
-            if (this.tokenindex == '?') {
+            if (this.tokenindex === '?') {
               this.tmpprio -= 40
               this.tokenindex = 'if'
               this.addfunc(tokenstack, operstack, TOP2)
@@ -1516,7 +1513,7 @@ let Parser = (function (scope) {
               this.tokenindex = ','
               noperators += 3
               this.addfunc(tokenstack, operstack, TOP2)
-            } else if (this.tokenindex == ':') {
+            } else if (this.tokenindex === ':') {
               this.tokenindex = ','
               noperators += 2
               this.addfunc(tokenstack, operstack, TOP2)
@@ -1696,7 +1693,7 @@ let Parser = (function (scope) {
           }
           escaping = false
         } else {
-          if (c == '\\') {
+          if (c === '\\') {
             escaping = true
           } else {
             buffer.push(c)
@@ -1711,11 +1708,11 @@ let Parser = (function (scope) {
       let r = false
       let str = ''
       let startpos = this.pos
-      if (this.pos < this.expression.length && this.expression.charAt(this.pos) == '\'') {
+      if (this.pos < this.expression.length && this.expression.charAt(this.pos) === '\'') {
         this.pos++
         while (this.pos < this.expression.length) {
           let code = this.expression.charAt(this.pos)
-          if (code != '\'' || str.slice(-1) == '\\') {
+          if (code !== '\'' || str.slice(-1) === '\\') {
             str += this.expression.charAt(this.pos)
             this.pos++
           } else {
@@ -1734,7 +1731,7 @@ let Parser = (function (scope) {
       for (i in this.consts) {
         if (this.consts.hasOwnProperty(i)) {
           let L = i.length
-          str = this.expression.substr(this.pos, L)
+          str = this.expression.substring(this.pos, this.pos + L)
           if (i === str) {
             this.tokennumber = this.consts[i]
             this.pos += L
@@ -1748,7 +1745,7 @@ let Parser = (function (scope) {
     isOperator: function () {
       let code
       if (this.pos + 1 < this.expression.length) {
-        code = this.expression.substr(this.pos, 2)
+        code = this.expression.substring(this.pos, this.pos + 2)
         if (Parser.operators[code]) {
           this.tokenprio = Parser.operators[code][2]
           this.tokenindex = code
@@ -1756,7 +1753,7 @@ let Parser = (function (scope) {
           return true
         }
       }
-      code = this.expression.substr(this.pos, 1)
+      code = this.expression.substring(this.pos, this.pos + 1)
       if (Parser.operators[code]) {
         this.tokenprio = Parser.operators[code][2]
         this.tokenindex = code
@@ -1773,20 +1770,17 @@ let Parser = (function (scope) {
 
     isPositiveSign: function () {
       let code = this.expression.charCodeAt(this.pos - 1)
-      if (code === 43) { // -
-        return true
-      }
-      return false
+      return code === 43
     },
 
     isNegativeSign: function () {
       let code = this.expression.charCodeAt(this.pos - 1)
-      return (code === 45)  // -
+      return code === 45  // -
     },
 
     isNotOperator: function () {
       let code = this.expression.charCodeAt(this.pos - 1)
-      return (code === 33)  // !
+      return code === 33  // !
     },
 
     isLeftParenth: function () {
