@@ -325,48 +325,48 @@ test('Calculate integer and float values.', () => {
     expect(result).toBe(118.9)
   }
 )
-test('Sum function and array letiable.1', () => {
+test('Sum function and array variable.1', () => {
     let result = parser.evaluate('sum(p)', {p: [1, 2, 3, 4, 5]})
     expect(result).toBe(15)
   }
 )
-test('Sum function and array letiable.2', () => {
+test('Sum function and array variable.2', () => {
     let result = parser.evaluate('sum(p)', {p: ['1,000', '1,000', '1,000', 5]})
     expect(result).toBe(3005)
   }
 )
 test(
-  'Sum function and array letiable.3', () => {
+  'Sum function and array variable.3', () => {
     let result = parser.evaluate('sum(p)', {p: [1.1, 1.1, 1.1, 5]})
     expect(result).toBe(8.3)
   }
 )
 test(
-  'Sum function and array letiable.4', () => {
+  'Sum function and array variable.4', () => {
     let result = parser.evaluate('sum(p)', {p: ['1,111,111', '1,111,111', '1,111,111']})
     expect(result).toBe(3333333)
   }
 )
 test(
-  'If function and array letiable.2', () => {
+  'If function and array variable.2', () => {
     let result = parser.evaluate('if(a = 1,\'b\',\'c\')', {a: [1]})
     expect(result).toBe('b')
   }
 )
 test(
-  'If function and array letiable.3', () => {
+  'If function and array variable.3', () => {
     let result = parser.evaluate('if(a = 1,\'b\',\'c\')', {a: [2]})
     expect(result).toBe('c')
   }
 )
 test(
-  'If function and array letiable.4', () => {
+  'If function and array variable.4', () => {
     let result = parser.evaluate('if((a+1) = (1+b),\'b\'+c,\'c\'+c)', {a: [2], b: [4], c: 'q'})
     expect(result).toBe('cq')
   }
 )
 test(
-  'If function and array letiable.5', () => {
+  'If function and array variable.5', () => {
     let result = parser.evaluate('if((a+1) = (1+b),\'b\'+c,\'c\'+c)', {a: [4], b: [4], c: 'q'})
     expect(result).toBe('bq')
   }
@@ -393,22 +393,22 @@ test('Calculate string and numeric.', () => {
     expect(result).toBe('Bowwow!4.3')
   }
 )
-test('String constant concat letiable.', () => {
+test('String constant concat variable.', () => {
     let result = parser.evaluate('\'I\\\'m a \' + exp + \'.\'', {exp: ['singer']})
     expect(result).toBe('I\'m a singer.')
   }
 )
-test('String substract concat letiable.', () => {
+test('String substract concat variable.', () => {
     let result = parser.evaluate('exp - \'cc\'', {exp: ['saccbaccda']})
     expect(result).toBe('sabada')
   }
 )
-test('letiables containing @ character.', () => {
+test('variables containing @ character.', () => {
     let result = parser.evaluate('c@x + c@y', {'c@x': [20], 'c@y': [2]})
     expect(result).toBe(22)
   }
 )
-test('Japanese characters letiables.', () => {
+test('Japanese characters variables.', () => {
     let result = parser.evaluate('テーブル@値1 + テーブル@値2', {'テーブル@値1': [20], 'テーブル@値2': [2]})
     expect(result).toBe(22)
   }
@@ -650,7 +650,7 @@ test('String Items search.', () => {
     expect(parser.evaluate('itemIndexOf(x,\'\')', {x: items})).toBe(2)
   }
 )
-test('FileMaker field name can be letiable.', () => {
+test('FileMaker field name can be variable.', () => {
     expect(parser.evaluate('テスト::フィールド + 変数', {'テスト::フィールド': 3, 変数: 4})).toBe(7)
   }
 )

@@ -311,15 +311,16 @@ let Parser = (function (scope) {
   }
 
   function add(a, b) {
-    let numa, numb
-    if ((typeof a) === 'string' || (typeof b) === 'string') {
-      return addstring(a, b)
+    let numa = arrayToValue(a)
+    let numb = arrayToValue(b)
+    if ((typeof numa) === 'string' || (typeof numb) === 'string') {
+      return addstring(numa, numb)
     }
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) === 'undefined' || typeof (b) === 'undefined') {
+    numa = toNumber(numa)
+    numb = toNumber(numb)
+    if (isReallyNaN(numa) || isReallyNaN(numb) || typeof (numa) === 'undefined' || typeof (numb) === 'undefined') {
       return NaN
     }
-    numa = toNumber(a)
-    numb = toNumber(b)
     if (!isNaN(numa) && !isNaN(numb)) {
       return Number(numa) + Number(numb)
     }
@@ -330,18 +331,45 @@ let Parser = (function (scope) {
     return String(a) + String(b)
   }
 
+  function isNumber(a) {
+    return ((typeof a === 'number') && (isFinite(a)));
+  }
+
+  function arrayToValue(a) {
+    let values = []
+    let isAllNum = true
+    if (Array.isArray(a)) {
+      for (const value of a) {
+        values.push(arrayToValue(value))
+        isAllNum &&= isNumber(value)
+      }
+      return isAllNum ? sumfunc(values) : values.join()
+    }
+    if (typeof (a) === 'object') {
+      for (const key in a) {
+        values.push(arrayToValue(a[key]))
+        isAllNum &&= isNumber(value)
+      }
+      return isAllNum ? sumfunc(values) : values.join()
+    }
+    // if (a === null || isNaN(a) || typeof (a) === 'undefined') {
+    //   return a
+    // }
+    return a
+  }
+
   function sub(a, b) {
-    let numa, numb, str, pos
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
+    let numa = arrayToValue(a)
+    let numb = arrayToValue(b)
+    if (isReallyNaN(numa) || isReallyNaN(numb) || typeof (numa) == 'undefined' || typeof (numb) == 'undefined') {
       return NaN
     }
     numa = (a === null || a === '') ? 0 : toNumber(a)
     numb = (b === null || b === '') ? 0 : toNumber(b)
-
     if (!isNaN(numa) && !isNaN(numb)) {
       return numa - numb   // Numeric substruct
     }
-    str = String(a)
+    let str = String(a), pos
     do {  // String substruct
       pos = str.indexOf(b)
       if (pos > -1) {
@@ -352,29 +380,33 @@ let Parser = (function (scope) {
   }
 
   function mul(a, b) {
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) === 'undefined' || typeof (b) === 'undefined') {
+    let numa = arrayToValue(a)
+    let numb = arrayToValue(b)
+    if (isReallyNaN(numa) || isReallyNaN(numb) || typeof (numa) === 'undefined' || typeof (numb) === 'undefined') {
       return NaN
     }
-    a = (a === null || a === '') ? 0 : toNumber(a)
-    b = (b === null || b === '') ? 0 : toNumber(b)
-    return a * b
+    numa = (numa === null || numa === '') ? 0 : toNumber(numa)
+    numb = (numb === null || numb === '') ? 0 : toNumber(numb)
+    return numa * numb
   }
 
   function div(a, b) {
-    if (isReallyNaN(a) || isReallyNaN(b) || typeof (a) == 'undefined' || typeof (b) == 'undefined') {
+    let numa = arrayToValue(a)
+    let numb = arrayToValue(b)
+    if (isReallyNaN(numa) || isReallyNaN(numb) || typeof (numa) === 'undefined' || typeof (numb) === 'undefined') {
       return NaN
     }
-    a = (a === null || a === '') ? 0 : toNumber(a)
-    b = (b === null || b === '') ? 0 : toNumber(b)
-    return a / b
+    numa = (numa === null || numa === '') ? 0 : toNumber(numa)
+    numb = (numb === null || numb === '') ? 0 : toNumber(numb)
+    return numa / numb
   }
 
   function mod(a, b) {
+    a = toNumber(a)
+    b = toNumber(b)
     if (isReallyNaN(a) || isReallyNaN(b)) {
       return NaN
     }
-    a = toNumber(a)
-    b = toNumber(b)
     return a % b
   }
 
@@ -638,14 +670,14 @@ let Parser = (function (scope) {
   }
 
   function itemsetor(a, b) {
-    let  result = ''
+    let result = ''
     const params = parametersOfMultiline(a, b)
     if (params === null) {
       return null
     }
     const arraya = params[0]
     const arrayb = params[1]
-    const  nl = params[2]
+    const nl = params[2]
     for (i = 0; i < arraya.length; i++) {
       if (arraya[i].length > 0) {
         result += arraya[i] + nl
