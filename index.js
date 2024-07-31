@@ -65,13 +65,7 @@ let Parser = (function (scope) {
 //    let cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
   let escapable = /[\\\'\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g
   let meta = {    // table of character substitutions
-    '\b': '\\b',
-    '\t': '\\t',
-    '\n': '\\n',
-    '\f': '\\f',
-    '\r': '\\r',
-    '\'': '\\\'',
-    '\\': '\\\\'
+    '\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '\'': '\\\'', '\\': '\\\\'
   }
 
   function escapeValue(v) {
@@ -313,8 +307,8 @@ let Parser = (function (scope) {
   function add(a, b) {
     let numa = arrayToValue(a)
     let numb = arrayToValue(b)
-    if ((typeof numa) === 'string' || (typeof numb) === 'string') {
-      return addstring(numa, numb)
+    if (((typeof numa) === 'string' && !isNumberable(numa)) || ((typeof numb) === 'string' && !isNumberable(numb))) {
+      return numa + numb
     }
     numa = toNumber(numa)
     numb = toNumber(numb)
@@ -331,10 +325,24 @@ let Parser = (function (scope) {
     return String(a) + String(b)
   }
 
+  /* ===== private ===== */
   function isNumber(a) {
     return ((typeof a === 'number') && (isFinite(a)));
   }
 
+  function isNumberable(a) {
+    const v = unformat(a)
+    if (v === '') {
+      return false
+    }
+    const val = parseFloat(v)
+    if (isNaN(val)) {
+      return false
+    }
+    return String(val).length > 0
+  }
+
+  /* ===== private ===== */
   function arrayToValue(a) {
     let values = []
     let isAllNum = true
@@ -356,6 +364,34 @@ let Parser = (function (scope) {
     //   return a
     // }
     return a
+  }
+
+  /* ===== private ===== */
+  function toNumber(str) {
+    let value
+
+    if (str === undefined) {
+      return NaN
+    }
+    if (str === true) {
+      return true
+    }
+    if (str === false) {
+      return false
+    }
+    if (str === '') {
+      return 0
+    }
+    value = str
+    if (Array.isArray(str)) {
+      if (str.length < 1) {
+        return 0
+      } else {
+        value = str[0]
+      }
+    }
+    value = unformat(value)
+    return value
   }
 
   function sub(a, b) {
@@ -520,34 +556,6 @@ let Parser = (function (scope) {
       return 0
     }
     return paramStr(a).length
-  }
-
-  /* ===== private ===== */
-  function toNumber(str) {
-    let value
-
-    if (str === undefined) {
-      return NaN
-    }
-    if (str === true) {
-      return true
-    }
-    if (str === false) {
-      return false
-    }
-    if (str === '') {
-      return 0
-    }
-    value = str
-    if (Array.isArray(str)) {
-      if (str.length < 1) {
-        return 0
-      } else {
-        value = str[0]
-      }
-    }
-    value = unformat(value)
-    return value
   }
 
   /* ===== private ===== */
@@ -1408,12 +1416,7 @@ let Parser = (function (scope) {
     }
 
     this.consts = {
-      'E': Math.E,
-      'PI': Math.PI,
-      'true': true,
-      'TRUE': true,
-      'false': false,
-      'FALSE': false
+      'E': Math.E, 'PI': Math.PI, 'true': true, 'TRUE': true, 'false': false, 'FALSE': false
     }
 
     Parser.operators = {

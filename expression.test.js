@@ -11,7 +11,7 @@ beforeEach(() => {
   IMLibFormat = IMLibFormatLib
 })
 
-test('should be equal to', () => {
+test('Fundamental calculations with four arithmetic operations and power operation.', () => {
     expect(parser.evaluate('2 ^ x', {x: 3})).toBe(8)
     expect(parser.evaluate('x + y', {x: 3, y: 5})).toBe(8)
     expect(parser.evaluate('2 * x + 1', {x: 3})).toBe(7)
@@ -24,10 +24,14 @@ test('should be equal to', () => {
     expect(parser.evaluate('(x+(x-3)*2)', {x: 5})).toBe(9)
     expect(parser.evaluate('(x/(x-3)*2)', {x: 5})).toBe(5)
     expect(parser.evaluate('x + y', {x: 5.1, y: 3.1})).toBe(8.2)
+    expect(parser.evaluate('x + y', {x: "1,200", y: 300})).toBe(1500)
+    expect(parser.evaluate('x - y', {x: "1,200", y: 300})).toBe(900)
+    expect(parser.evaluate('x * y', {x: "1,200", y: 300})).toBe(360000)
+    expect(parser.evaluate('x / y', {x: "1,200", y: 300})).toBe(4)
   }
 )
 
-test('should be equal to', () => {
+test('Checking choice function.', () => {
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: 0, a1: 'zero', a2: 1, a3: 2})).toBe('zero')
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: 1, a1: 'zero', a2: 1, a3: 2})).toBe(1)
     expect(parser.evaluate('choice(x, a1, a2, a3)', {x: 2, a1: 'zero', a2: 1, a3: 2})).toBe(2)
@@ -39,7 +43,7 @@ test('should be equal to', () => {
   }
 )
 
-test('should be equal to', () => {
+test('Checking condition function.', () => {
     expect(parser.evaluate(
       'condition(z<x1, a1, z<x2, a2, z<x3, a3)',
       {z: -5, x1: 0, a1: 120, x2: 10, a2: 130, x3: 20, a3: 140})).toBe(120)
@@ -61,7 +65,7 @@ test('should be equal to', () => {
   }
 )
 
-test('should be equal to', () => {
+test('Checking accumulate function.', () => {
     expect(parser.evaluate(
       'accumulate(z<x1, a1, z<x2, a2, z<x3, a3)',
       {z: -5, x1: 0, a1: 120, x2: 10, a2: 130, x3: 20, a3: 140})).toBe('120\n130\n140\n')
@@ -83,19 +87,23 @@ test('should be equal to', () => {
   }
 )
 
-test('should be equal to', () => {
+test('Handling zero and "" with add operation', () => {
     expect(0 + 0).toBe(0)
     expect('' + 0).toBe('0')
     expect(0 + '').toBe('0')
     expect('' + '').toBe('')
     expect(parser.evaluate('x + y', {x: 0, y: 0})).toBe(0)
-    expect(parser.evaluate('x + y', {x: '', y: 0})).toBe('0')
-    expect(parser.evaluate('x + y', {x: 0, y: ''})).toBe('0')
+    expect(parser.evaluate('x + y', {x: '', y: 0})).toBe("0")
+    expect(parser.evaluate('x + y', {x: 0, y: ''})).toBe("0")
     expect(parser.evaluate('x + y', {x: '', y: ''})).toBe('')
+    expect(parser.evaluate('x + y', {x: 1, y: 1})).toBe(2)
+    expect(parser.evaluate('x + y', {x: '', y: 1})).toBe("1")
+    expect(parser.evaluate('x + y', {x: 'z', y: 1})).toBe("z1")
+    expect(parser.evaluate('x + y', {x: 'z', y: ''})).toBe('z')
   }
 )
 
-test('should be equal to', () => {
+test('Logical operations', () => {
     expect(parser.evaluate('a = b ', {a: 100, b: 100})).toBe(true)
     expect(parser.evaluate('a = b ', {a: 99, b: 100})).toBe(false)
     expect(parser.evaluate('a == b ', {a: 100, b: 100})).toBe(true)
@@ -123,7 +131,7 @@ test('should be equal to', () => {
     expect(parser.evaluate('a → b', {a: true, b: true})).toBe(true)
   }
 )
-test('should be equal to', () => {
+test('Uncommon operations.', () => {
     expect(parser.evaluate('a + b ', {a: 'abc', b: 'def'})).toBe('abcdef')
     expect(parser.evaluate('a ⊕ b ', {a: 123, b: 456})).toBe('123456')
     expect(parser.evaluate('a ⊕ b ', {a: '123', b: '456'})).toBe('123456')
@@ -140,7 +148,7 @@ test('should be equal to', () => {
     expect(parser.evaluate('a ⊬ b ', {a: 'abc\ndff\nghi', b: 'ghi\ndkg\n'})).toBe('abc\ndff\n')
   }
 )
-test('should not be equal to', () => {
+test('Logical operations.', () => {
     expect(parser.evaluate('a <> b ', {a: 1, b: 2})).toBe(true)
     expect(parser.evaluate('a <> b ', {a: 1, b: '2'})).toBe(true)
     expect(parser.evaluate('a <> b ', {a: '1', b: '2'})).toBe(true)
@@ -172,7 +180,7 @@ test('isnull function test', () => {
   }
 )
 
-test('should be equal to', () => {
+test('Functions test.', () => {
     INTERMediatorLocale = {
       'decimal_point': '.',
       'thousands_sep': ',',
